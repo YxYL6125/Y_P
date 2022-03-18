@@ -25,6 +25,9 @@
     </bean>
 
 
+    <bean class="com.yxyl.dao.impl.UserDaoImpl" id="userDao"/>
+
+    <bean class="com.yxyl.service.impl.UserServiceImpl" id="userService"/>
 
 
 </beans>
