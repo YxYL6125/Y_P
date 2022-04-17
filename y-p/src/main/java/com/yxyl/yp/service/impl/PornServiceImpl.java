@@ -1,6 +1,7 @@
 package com.yxyl.yp.service.impl;
 
 import com.yxyl.yp.mapper.PornMapper;
+import com.yxyl.yp.model.Porn;
 import com.yxyl.yp.service.PornService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class PornServiceImpl implements PornService {
     private PornMapper pornMapper;
 
     @Override
-    public String findPornById(int id) {
-        return pornMapper.findByPornId(id);
+    public Porn findPornById(int id) {
+        return pornMapper.selectByPrimaryKey(id);
     }
 }

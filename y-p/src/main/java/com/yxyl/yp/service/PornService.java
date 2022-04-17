@@ -1,11 +1,13 @@
 package com.yxyl.yp.service;
 
+import com.yxyl.yp.model.Porn;
+
 public interface PornService {
 
     /**
      * 根据id 查询Porn
      * @return
      */
-    String findPornById(int id);
+    Porn findPornById(int id);
 
 }

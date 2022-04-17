@@ -1,10 +1,14 @@
 package com.yxyl.yp.web;
 
+import com.yxyl.yp.model.Porn;
 import com.yxyl.yp.service.PornService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @program: y-p
@@ -20,12 +24,17 @@ public class PornController {
     private PornService pornService;
 
     @RequestMapping("/find")
-    public String find() {
+    public ModelAndView find() {
+        ModelAndView mav = new ModelAndView();
 
-        String res = "";
+        List<Porn> res =new ArrayList<>();
         for (int i = 1; i <= 190; i++) {
-            res += pornService.findPornById(i);
+            res.add(pornService.findPornById(i));
         }
-        return res;
+
+        mav.addObject("porns",res);
+        mav.setViewName("index");
+
+        return mav;
     }
 }

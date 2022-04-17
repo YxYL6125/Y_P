@@ -3,43 +3,31 @@
 <mapper namespace="com.yxyl.yp.mapper.PornMapper">
   <resultMap id="BaseResultMap" type="com.yxyl.yp.model.Porn">
     <id column="porn_id" jdbcType="INTEGER" property="pornId" />
+    <result column="porn_time" jdbcType="VARCHAR" property="pornTime" />
     <result column="porn_href" jdbcType="VARCHAR" property="pornHref" />
     <result column="porn_title" jdbcType="VARCHAR" property="pornTitle" />
     <result column="porn_types" jdbcType="VARCHAR" property="pornTypes" />
     <result column="porn_watch" jdbcType="VARCHAR" property="pornWatch" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.yxyl.yp.model.Porn">
-    <result column="porn_time" jdbcType="VARBINARY" property="pornTime" />
-  </resultMap>
   <sql id="Base_Column_List">
-    porn_id, porn_href, porn_title, porn_types, porn_watch
+    porn_id, porn_time, porn_href, porn_title, porn_types, porn_watch
   </sql>
-  <sql id="Blob_Column_List">
-    porn_time
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from porn_detail
     where porn_id = #{pornId,jdbcType=INTEGER}
   </select>
-  <select id="findByPornId" resultType="java.lang.String" parameterType="int">
-    select * from porn_detail where porn_id = #{porn_id}
-  </select>
-
-
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from porn_detail
     where porn_id = #{pornId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.yxyl.yp.model.Porn">
-    insert into porn_detail (porn_id, porn_href, porn_title, 
-      porn_types, porn_watch, porn_time
+    insert into porn_detail (porn_id, porn_time, porn_href, 
+      porn_title, porn_types, porn_watch
       )
-    values (#{pornId,jdbcType=INTEGER}, #{pornHref,jdbcType=VARCHAR}, #{pornTitle,jdbcType=VARCHAR}, 
-      #{pornTypes,jdbcType=VARCHAR}, #{pornWatch,jdbcType=VARCHAR}, #{pornTime,jdbcType=VARBINARY}
+    values (#{pornId,jdbcType=INTEGER}, #{pornTime,jdbcType=VARCHAR}, #{pornHref,jdbcType=VARCHAR}, 
+      #{pornTitle,jdbcType=VARCHAR}, #{pornTypes,jdbcType=VARCHAR}, #{pornWatch,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.yxyl.yp.model.Porn">
@@ -47,6 +35,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="pornId != null">
         porn_id,
+      </if>
+      <if test="pornTime != null">
+        porn_time,
       </if>
       <if test="pornHref != null">
         porn_href,
@@ -60,13 +51,13 @@
       <if test="pornWatch != null">
         porn_watch,
       </if>
-      <if test="pornTime != null">
-        porn_time,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="pornId != null">
         #{pornId,jdbcType=INTEGER},
+      </if>
+      <if test="pornTime != null">
+        #{pornTime,jdbcType=VARCHAR},
       </if>
       <if test="pornHref != null">
         #{pornHref,jdbcType=VARCHAR},
@@ -80,14 +71,14 @@
       <if test="pornWatch != null">
         #{pornWatch,jdbcType=VARCHAR},
       </if>
-      <if test="pornTime != null">
-        #{pornTime,jdbcType=VARBINARY},
-      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.yxyl.yp.model.Porn">
     update porn_detail
     <set>
+      <if test="pornTime != null">
+        porn_time = #{pornTime,jdbcType=VARCHAR},
+      </if>
       <if test="pornHref != null">
         porn_href = #{pornHref,jdbcType=VARCHAR},
       </if>
@@ -100,24 +91,13 @@
       <if test="pornWatch != null">
         porn_watch = #{pornWatch,jdbcType=VARCHAR},
       </if>
-      <if test="pornTime != null">
-        porn_time = #{pornTime,jdbcType=VARBINARY},
-      </if>
     </set>
-    where porn_id = #{pornId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yxyl.yp.model.Porn">
-    update porn_detail
-    set porn_href = #{pornHref,jdbcType=VARCHAR},
-      porn_title = #{pornTitle,jdbcType=VARCHAR},
-      porn_types = #{pornTypes,jdbcType=VARCHAR},
-      porn_watch = #{pornWatch,jdbcType=VARCHAR},
-      porn_time = #{pornTime,jdbcType=VARBINARY}
     where porn_id = #{pornId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yxyl.yp.model.Porn">
     update porn_detail
-    set porn_href = #{pornHref,jdbcType=VARCHAR},
+    set porn_time = #{pornTime,jdbcType=VARCHAR},
+      porn_href = #{pornHref,jdbcType=VARCHAR},
       porn_title = #{pornTitle,jdbcType=VARCHAR},
       porn_types = #{pornTypes,jdbcType=VARCHAR},
       porn_watch = #{pornWatch,jdbcType=VARCHAR}
